@@ -138,6 +138,7 @@ export default class Auth0Client {
   private transactionManager: TransactionManager;
   private customOptions: BaseLoginOptions;
   private domainUrl: string;
+  private backChannelUrl: string;
   private tokenIssuer: string;
   private defaultScope: string;
   private scope: string;
@@ -185,6 +186,10 @@ export default class Auth0Client {
     // cache keys - changing the order could invalidate the keys
     if (this.options.useRefreshTokens) {
       this.scope = getUniqueScopes(this.scope, 'offline_access');
+    }
+
+    if (this.options.back_channel_url) {
+      this.backChannelUrl = this.options.back_channel_url;
     }
 
     // Don't use web workers unless using refresh tokens in memory and not IE11
@@ -374,12 +379,14 @@ export default class Auth0Client {
         audience: params.audience,
         scope: params.scope,
         baseUrl: this.domainUrl,
+        backChannelUrl: this.backChannelUrl,
         client_id: this.options.client_id,
         code_verifier,
         code: codeResult.code,
         grant_type: 'authorization_code',
         redirect_uri: params.redirect_uri,
-        auth0Client: this.options.auth0Client
+        auth0Client: this.options.auth0Client,
+        tokenIssuer: this.tokenIssuer
       } as OAuthTokenOptions,
       this.worker
     );
@@ -524,11 +531,14 @@ export default class Auth0Client {
       audience: transaction.audience,
       scope: transaction.scope,
       baseUrl: this.domainUrl,
+      backChannelUrl: this.backChannelUrl,
       client_id: this.options.client_id,
       code_verifier: transaction.code_verifier,
       grant_type: 'authorization_code',
       code,
-      auth0Client: this.options.auth0Client
+      auth0Client: this.options.auth0Client,
+      redirect_uri: undefined,
+      tokenIssuer: this.tokenIssuer
     } as OAuthTokenOptions;
     // some old versions of the SDK might not have added redirect_uri to the
     // transaction, we dont want the key to be set to undefined.
@@ -863,12 +873,14 @@ export default class Auth0Client {
           scope,
           audience,
           baseUrl: this.domainUrl,
+          backChannelUrl: this.backChannelUrl,
           client_id: this.options.client_id,
           code_verifier,
           code: codeResult.code,
           grant_type: 'authorization_code',
           redirect_uri: params.redirect_uri,
-          auth0Client: this.options.auth0Client
+          auth0Client: this.options.auth0Client,
+          tokenIssuer: this.tokenIssuer
         } as OAuthTokenOptions,
         this.worker
       );
@@ -943,12 +955,14 @@ export default class Auth0Client {
           audience,
           scope,
           baseUrl: this.domainUrl,
+          backChannelUrl: this.backChannelUrl,
           client_id: this.options.client_id,
           grant_type: 'refresh_token',
           refresh_token: cache && cache.refresh_token,
           redirect_uri,
           ...(timeout && { timeout }),
-          auth0Client: this.options.auth0Client
+          auth0Client: this.options.auth0Client,
+          tokenIssuer: this.tokenIssuer
         } as RefreshTokenOptions,
         this.worker
       );
