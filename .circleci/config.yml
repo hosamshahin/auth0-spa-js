@@ -67,7 +67,7 @@ jobs:
             IMPORT_STATEMENT: |
               import './../auth0';
             AUTH0_CONTENT: |
-              import { Auth0Client } from '@auth0/auth0-spa-js';
+              import { Auth0Client } from '@hosamshahin/auth0-spa-js';
               new Auth0Client({
                 domain: 'DOMAIN',
                 client_id: 'CLIENT_ID'
@@ -100,7 +100,7 @@ jobs:
             IMPORT_STATEMENT: |
               import './auth0';
             AUTH0_CONTENT: |
-              import { Auth0Client } from '@auth0/auth0-spa-js';
+              import { Auth0Client } from '@hosamshahin/auth0-spa-js';
               new Auth0Client({
                 domain: 'DOMAIN',
                 client_id: 'CLIENT_ID'
@@ -133,7 +133,7 @@ jobs:
             IMPORT_STATEMENT: |
               import './auth0';
             AUTH0_CONTENT: |
-              import { Auth0Client } from '@auth0/auth0-spa-js';
+              import { Auth0Client } from '@hosamshahin/auth0-spa-js';
               new Auth0Client({
                 domain: 'DOMAIN',
                 client_id: 'CLIENT_ID'
@@ -166,7 +166,7 @@ jobs:
             IMPORT_STATEMENT: |
               import './auth0';
             AUTH0_CONTENT: |
-              import { Auth0Client } from '@auth0/auth0-spa-js';
+              import { Auth0Client } from '@hosamshahin/auth0-spa-js';
               new Auth0Client({
                 domain: 'DOMAIN',
                 client_id: 'CLIENT_ID'
