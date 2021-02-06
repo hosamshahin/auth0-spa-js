@@ -1,9 +1,9 @@
 {
   "author": "Auth0",
-  "name": "@auth0/auth0-spa-js",
+  "name": "@hosamshahin/auth0-spa-js",
   "description": "Auth0 SDK for Single Page Applications using Authorization Code Grant Flow with PKCE",
   "license": "MIT",
-  "version": "1.13.6",
+  "version": "1.13.6-3",
   "main": "dist/lib/auth0-spa-js.cjs.js",
   "types": "dist/typings/index.d.ts",
   "module": "dist/auth0-spa-js.production.esm.js",
@@ -92,12 +92,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/auth0/auth0-spa-js.git"
+    "url": "git://github.com/hosamshahin/auth0-spa-js.git"
   },
   "bugs": {
-    "url": "https://github.com/auth0/auth0-spa-js/issues"
+    "url": "https://github.com/hosamshahin/auth0-spa-js/issues"
   },
-  "homepage": "https://github.com/auth0/auth0-spa-js#readme",
+  "homepage": "https://github.com/hosamshahin/auth0-spa-js#readme",
   "keywords": [
     "auth0",
     "login",

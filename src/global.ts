@@ -90,6 +90,10 @@ export interface Auth0ClientOptions extends BaseLoginOptions {
    */
   client_id: string;
   /**
+   * The back_channel_url used to get the tokens
+   */
+  back_channel_url?: string;
+  /**
    * The default URL where Auth0 will redirect your browser to with
    * the authentication result. It must be whitelisted in
    * the "Allowed Callback URLs" field in your Auth0 Application's
@@ -388,6 +392,7 @@ export interface AuthenticationResult {
  */
 export interface TokenEndpointOptions {
   baseUrl: string;
+  backChannelUrl: string;
   client_id: string;
   grant_type: string;
   timeout?: number;

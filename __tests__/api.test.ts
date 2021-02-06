@@ -52,15 +52,16 @@ describe('oauthToken', () => {
       redirect_uri: 'http://localhost',
       grant_type: 'authorization_code',
       baseUrl: 'https://test.com',
+      backChannelUrl: 'https://api.test.com/login',
       client_id: 'client_idIn',
       code: 'codeIn',
       code_verifier: 'code_verifierIn',
       auth0Client
     });
 
-    expect(mockFetch).toBeCalledWith('https://test.com/oauth/token', {
+    expect(mockFetch).toBeCalledWith('https://api.test.com/login?code=codeIn', {
       body:
-        '{"redirect_uri":"http://localhost","grant_type":"authorization_code","client_id":"client_idIn","code":"codeIn","code_verifier":"code_verifierIn"}',
+        '{"redirect_uri":"http://localhost","grant_type":"authorization_code","client_id":"client_idIn","code_verifier":"code_verifierIn"}',
       headers: {
         'Content-type': 'application/json',
         'Auth0-Client': btoa(JSON.stringify(auth0Client))
@@ -86,7 +87,6 @@ describe('oauthToken', () => {
       redirect_uri: 'http://localhost',
       grant_type: 'authorization_code',
       client_id: 'client_idIn',
-      code: 'codeIn',
       code_verifier: 'code_verifierIn'
     };
 
@@ -100,6 +100,7 @@ describe('oauthToken', () => {
         redirect_uri: 'http://localhost',
         grant_type: 'authorization_code',
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -110,7 +111,7 @@ describe('oauthToken', () => {
       worker
     );
 
-    expect(mockFetch).toBeCalledWith('https://test.com/oauth/token', {
+    expect(mockFetch).toBeCalledWith('https://api.test.com/login?code=codeIn', {
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json',
@@ -124,7 +125,7 @@ describe('oauthToken', () => {
 
     expect(spy).toHaveBeenCalledWith(
       {
-        fetchUrl: 'https://test.com/oauth/token',
+        fetchUrl: 'https://api.test.com/login?code=codeIn',
         fetchOptions: {
           body: JSON.stringify(body),
           headers: {
@@ -162,6 +163,7 @@ describe('oauthToken', () => {
     try {
       await oauthToken({
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -188,6 +190,7 @@ describe('oauthToken', () => {
     try {
       await oauthToken({
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -196,11 +199,11 @@ describe('oauthToken', () => {
       });
     } catch (error) {
       expect(error.message).toBe(
-        `HTTP error. Unable to fetch https://test.com/oauth/token`
+        `HTTP error. Unable to fetch https://api.test.com/login?code=codeIn`
       );
       expect(error.error).toBe('request_error');
       expect(error.error_description).toBe(
-        `HTTP error. Unable to fetch https://test.com/oauth/token`
+        `HTTP error. Unable to fetch https://api.test.com/login?code=codeIn`
       );
     }
   });
@@ -215,6 +218,7 @@ describe('oauthToken', () => {
     try {
       await oauthToken({
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -245,6 +249,7 @@ describe('oauthToken', () => {
 
     const result = await oauthToken({
       baseUrl: 'https://test.com',
+      backChannelUrl: 'https://api.test.com/login',
       client_id: 'client_idIn',
       code: 'codeIn',
       code_verifier: 'code_verifierIn',
@@ -263,6 +268,7 @@ describe('oauthToken', () => {
     await expect(
       oauthToken({
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -290,6 +296,7 @@ describe('oauthToken', () => {
     try {
       await oauthToken({
         baseUrl: 'https://test.com',
+        backChannelUrl: 'https://api.test.com/login',
         client_id: 'client_idIn',
         code: 'codeIn',
         code_verifier: 'code_verifierIn',
@@ -320,6 +327,7 @@ describe('oauthToken', () => {
 
     const result = await oauthToken({
       baseUrl: 'https://test.com',
+      backChannelUrl: 'https://api.test.com/login',
       client_id: 'client_idIn',
       code: 'codeIn',
       code_verifier: 'code_verifierIn',
