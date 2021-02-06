@@ -536,6 +536,7 @@ export default class Auth0Client {
       code_verifier: transaction.code_verifier,
       grant_type: 'authorization_code',
       code,
+      nonce: transaction.nonce,
       auth0Client: this.options.auth0Client,
       redirect_uri: undefined,
       tokenIssuer: this.tokenIssuer

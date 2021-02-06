@@ -20,6 +20,8 @@ export async function oauthToken(
     scope,
     auth0Client,
     code,
+    code_verifier,
+    nonce,
     tokenIssuer,
     ...options
   }: TokenEndpointOptions,
@@ -27,13 +29,18 @@ export async function oauthToken(
 ) {
   let url: string = '';
   let body: string = '';
-  let contentType: string = '';
   let formBody: string[] = [];
+  let headers: any = {
+    'Content-type': 'application/json',
+    'Auth0-Client': btoa(JSON.stringify(auth0Client || DEFAULT_AUTH0_CLIENT))
+  };
 
   if (backChannelUrl != undefined) {
-    url = `${backChannelUrl}?code=${code}`;
+    url = `${backChannelUrl}`;
     body = JSON.stringify(options);
-    contentType = 'application/json';
+    headers['code'] = code;
+    headers['code_verifier'] = code_verifier;
+    headers['nonce'] = nonce;
   } else if (tokenIssuer && tokenIssuer.includes('cognito')) {
     url = `${baseUrl}/oauth2/token`;
     var details = {
@@ -47,11 +54,10 @@ export async function oauthToken(
     }
     formBody.push(`code=${encodeURIComponent(code)}`);
     body = formBody.join('&');
-    contentType = 'application/x-www-form-urlencoded';
+    headers['Content-type'] = 'application/x-www-form-urlencoded';
   } else {
     url = `${baseUrl}/oauth/token`;
     body = JSON.stringify({ ...options, code });
-    contentType = 'application/json';
   }
 
   const result = await getJSON<TokenEndpointResponse>(
@@ -62,12 +68,7 @@ export async function oauthToken(
     {
       method: 'POST',
       body: body,
-      headers: {
-        'Content-type': contentType,
-        'Auth0-Client': btoa(
-          JSON.stringify(auth0Client || DEFAULT_AUTH0_CLIENT)
-        )
-      }
+      headers: headers
     },
     worker
   );
