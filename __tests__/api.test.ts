@@ -59,7 +59,7 @@ describe('oauthToken', () => {
       auth0Client
     });
 
-    expect(mockFetch).toBeCalledWith('https://api.test.com/login?code=codeIn', {
+    expect(mockFetch).toBeCalledWith('https://api.test.com/login', {
       body:
         '{"redirect_uri":"http://localhost","grant_type":"authorization_code","client_id":"client_idIn","code_verifier":"code_verifierIn"}',
       headers: {
@@ -111,7 +111,7 @@ describe('oauthToken', () => {
       worker
     );
 
-    expect(mockFetch).toBeCalledWith('https://api.test.com/login?code=codeIn', {
+    expect(mockFetch).toBeCalledWith('https://api.test.com/login', {
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json',
@@ -125,7 +125,7 @@ describe('oauthToken', () => {
 
     expect(spy).toHaveBeenCalledWith(
       {
-        fetchUrl: 'https://api.test.com/login?code=codeIn',
+        fetchUrl: 'https://api.test.com/login',
         fetchOptions: {
           body: JSON.stringify(body),
           headers: {
@@ -199,11 +199,11 @@ describe('oauthToken', () => {
       });
     } catch (error) {
       expect(error.message).toBe(
-        `HTTP error. Unable to fetch https://api.test.com/login?code=codeIn`
+        `HTTP error. Unable to fetch https://api.test.com/login`
       );
       expect(error.error).toBe('request_error');
       expect(error.error_description).toBe(
-        `HTTP error. Unable to fetch https://api.test.com/login?code=codeIn`
+        `HTTP error. Unable to fetch https://api.test.com/login`
       );
     }
   });

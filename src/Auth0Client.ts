@@ -228,6 +228,8 @@ export default class Auth0Client {
       auth0Client,
       cacheLocation,
       advancedOptions,
+      issuer,
+      back_channel_url,
       ...withoutDomain
     } = this.options;
 
@@ -342,7 +344,7 @@ export default class Auth0Client {
     options: PopupLoginOptions = {},
     config: PopupConfigOptions = {}
   ) {
-    const { ...authorizeOptions } = options;
+    const { issuer, back_channel_url, ...authorizeOptions } = options;
     const stateIn = encode(createRandomString());
     const nonceIn = encode(createRandomString());
     const code_verifier = createRandomString();
@@ -826,6 +828,7 @@ export default class Auth0Client {
   private async _getTokenFromIFrame(
     options: GetTokenSilentlyOptions
   ): Promise<any> {
+    const { issuer, back_channel_url, ...authorizeOptions } = options;
     const stateIn = encode(createRandomString());
     const nonceIn = encode(createRandomString());
     const code_verifier = createRandomString();
@@ -833,7 +836,7 @@ export default class Auth0Client {
     const code_challenge = bufferToBase64UrlEncoded(code_challengeBuffer);
 
     const params = this._getParams(
-      options,
+      authorizeOptions,
       stateIn,
       nonceIn,
       code_challenge,
