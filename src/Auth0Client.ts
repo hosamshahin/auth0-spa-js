@@ -184,9 +184,9 @@ export default class Auth0Client {
     // If using refresh tokens, automatically specify the `offline_access` scope.
     // Note we cannot add this to 'defaultScope' above as the scopes are used in the
     // cache keys - changing the order could invalidate the keys
-    if (this.options.useRefreshTokens) {
-      this.scope = getUniqueScopes(this.scope, 'offline_access');
-    }
+    // if (this.options.useRefreshTokens) {
+    //   this.scope = getUniqueScopes(this.scope, 'offline_access');
+    // }
 
     if (this.options.back_channel_url) {
       this.backChannelUrl = this.options.back_channel_url;
@@ -784,9 +784,11 @@ export default class Auth0Client {
       delete options.client_id;
     }
 
-    const { federated, ...logoutOptions } = options;
+    const { federated, returnTo, ...logoutOptions } = options;
     const federatedQuery = federated ? `&federated` : '';
-    const url = this._url(`/v2/logout?${createQueryParams(logoutOptions)}`);
+    const url = this._url(
+      `/logout?${createQueryParams({ logout_uri: returnTo, ...logoutOptions })}`
+    );
 
     return url + federatedQuery;
   }
