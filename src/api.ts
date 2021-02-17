@@ -23,6 +23,8 @@ export async function oauthToken(
     code_verifier,
     nonce,
     tokenIssuer,
+    grant_type,
+    refresh_token,
     ...options
   }: TokenEndpointOptions,
   worker?: Worker
@@ -41,6 +43,8 @@ export async function oauthToken(
     headers['code'] = code;
     headers['code_verifier'] = code_verifier;
     headers['nonce'] = nonce;
+    headers['grant_type'] = grant_type;
+    headers['refresh_token'] = refresh_token;
   } else if (tokenIssuer && tokenIssuer.includes('cognito')) {
     url = `${baseUrl}/oauth2/token`;
     var details = {
