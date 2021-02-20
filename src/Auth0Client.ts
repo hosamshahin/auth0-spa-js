@@ -928,9 +928,14 @@ export default class Auth0Client {
 
     // If you don't have a refresh token in memory
     // and you don't have a refresh token in web worker memory
-    // fallback to an iframe.
+    // fallback to loginWithRedirect.
     if ((!cache || !cache.refresh_token) && !this.worker) {
-      return await this._getTokenFromIFrame(options);
+      // return await this._getTokenFromIFrame(options);
+      try {
+        await this.loginWithRedirect();
+      } catch (error) {
+        throw error;
+      }
     }
 
     const redirect_uri =
@@ -982,9 +987,13 @@ export default class Auth0Client {
         (e.message &&
           e.message.indexOf(INVALID_REFRESH_TOKEN_ERROR_MESSAGE) > -1)
       ) {
-        return await this._getTokenFromIFrame(options);
+        // return await this._getTokenFromIFrame(options);
+        try {
+          await this.loginWithRedirect();
+        } catch (error) {
+          throw error;
+        }
       }
-
       throw e;
     }
 
